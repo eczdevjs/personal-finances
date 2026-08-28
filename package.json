@@ -1,0 +1,26 @@
+{
+  "name": "personal-finance-mng",
+  "version": "1.0.0",
+  "description": "app for personal finance control",
+  "license": "ISC",
+  "author": "ecz",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "migrate:latest": "knex migrate:latest --knexfile src/knexfile.ts",
+    "migrate:rollback": "knex migrate:rollback --knexfile src/knexfile.ts"
+  },
+  "dependencies": {
+    "knex": "^3.3.0",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "dotenv": "^17.4.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  }
+}
