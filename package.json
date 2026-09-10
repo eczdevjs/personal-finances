@@ -18,16 +18,20 @@
   "dependencies": {
     "express": "^5.2.1",
     "knex": "^3.3.0",
+    "lodash": "^4.18.1",
     "node-cron": "^4.6.0",
     "pg": "^8.23.0",
     "swagger-jsdoc": "^6.3.0",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.25",
     "@types/node": "^26.4.0",
     "@types/node-cron": "^3.0.11",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
+    "@types/winston": "^2.4.4",
     "dotenv": "^17.4.2",
     "husky": "^9.1.7",
     "lint-staged": "^17.4.1",
