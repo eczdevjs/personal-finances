@@ -1,0 +1,109 @@
+# ADR 003: Estrutura em Camadas baseada em Clean Architecture
+
+- **Status:** Aceito
+- **Data:** 2026-09-10
+- **Módulo:** Arquitetura / Estrutura Global do Projeto
+- **Autores:** Erico (`eczdevjs`)
+
+---
+
+## 1. Contexto e Problema
+
+À medida que o projeto de gestão financeira cresce com módulos como despesas, faturas, relatórios e agendadores (*jobs*), a falta de um padrão arquitetural rígido pode levar a:
+
+1. **Acoplamento excessivo:** controladores HTTP lidando diretamente com regras de negócio ou chamadas SQL (`Knex`).
+2. **Dificuldade de testabilidade:** impossibilidade de testar regras de negócio sem subir o servidor Web ou ter um banco de dados ativo.
+3. **Falta de padronização:** dificuldade em retomar o desenvolvimento após períodos de inatividade por não saber onde cada responsabilidade deve residir.
+
+---
+
+## 2. Decisão de Arquitetura
+
+Adotamos uma versão simplificada e pragmática da **Clean Architecture (Arquitetura em Camadas)** para a API Node.js/TypeScript, organizada por **Módulos/Domínios**.
+
+Cada módulo do sistema será encapsulado com responsabilidades estritamente separadas:
+
+```text
+src/
+├── database/            # Configurações do Knex, Migrations e Seeds
+├── jobs/                # Cron Jobs e tarefas agendadas independentes
+├── modules/             # Funcionalidades separadas por domínio (Domain-Driven)
+│   └── [modulo]/
+│       ├── [modulo].controller.ts  # Camada de Apresentação (HTTP / Express)
+│       ├── [modulo].service.ts     # Camada de Regras de Negócio (Use Cases)
+│       ├── [modulo].repository.ts  # Camada de Acesso a Dados (Knex Queries)
+│       └── [modulo].routes.ts      # Definição das Rotas do Módulo
+├── shared/              # Utilitários, Middlewares e Tratamento de Erros
+├── app.ts               # Configuração da Aplicação Express
+└── server.ts            # Inicialização e Escuta do Servidor
+```
+
+---
+
+## 3. Responsabilidades de Cada Camada
+
+### 3.1. Routes & Controller — Camada de Entrada / HTTP
+
+**Função:** tratar requisições e respostas HTTP (`req`, `res`).
+
+**Regras:**
+
+- Valida parâmetros de entrada (ex.: usando `Zod` ou `Yup`).
+- Não contém regras de negócio nem executa comandos SQL.
+- Delega o processamento ao `Service` correspondente.
+
+### 3.2. Service — Camada de Domínio / Regras de Negócio
+
+**Função:** orquestrar as regras de negócio do sistema.
+
+**Regras:**
+
+- Não conhece detalhes da camada de transporte, portanto não recebe `req` ou `res`.
+- Valida permissões e condições do negócio, por exemplo:
+  - "Usuário tem saldo suficiente?"
+  - "A categoria pertence a este usuário?"
+- Invoca o `Repository` para buscar ou persistir dados.
+
+### 3.3. Repository — Camada de Dados / Infraestrutura
+
+**Função:** abstrair o acesso ao banco de dados.
+
+**Regras:**
+
+- É a única camada autorizada a importar e utilizar o `Knex` (`db`).
+- Constrói as queries SQL ou invoca as Stored Procedures nativas.
+
+### 3.4. Jobs — Gatilhos de Tempo
+
+**Função:** representar pontos de entrada alternativos disparados por agendamento (`node-cron`).
+
+**Regras:**
+
+- Invocam diretamente os `Services` ou `Repositories`.
+- Não passam pelo fluxo HTTP.
+
+---
+
+## 4. Diagrama do Fluxo de Dados
+
+```text
+[ Cliente HTTP ] ──> [ Controller ] ──> [ Service ] ──> [ Repository ] ──> [ PostgreSQL ]
+                                           ▲
+[ Cron Job ] ──────────────────────────────┘
+```
+
+---
+
+## 5. Consequências
+
+### 5.1. Positivas
+
+- **Testabilidade:** permite criar testes unitários para a camada de `Service`, mockando apenas a camada de `Repository`.
+- **Organização:** cada funcionalidade fica contida dentro do seu próprio módulo, facilitando a navegação.
+- **Flexibilidade:** se o *query builder* for substituído no futuro, apenas a camada de `Repository` precisará ser alterada.
+
+### 5.2. Negativas / Mitigações
+
+- **Mais arquivos por módulo:** criação de múltiplos arquivos por recurso.
+
+  **Mitigação:** em recursos muito simples (ex.: CRUD básico sem regras complexas), o `Service` pode ter implementação direta.
