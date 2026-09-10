@@ -5,17 +5,15 @@
   "license": "ISC",
   "author": "ecz",
   "main": "index.js",
-
-"scripts": {
+  "scripts": {
+    "test": "vitest run",
     "migrate:latest": "tsx src/database/migrationRunner.ts latest",
     "migrate:rollback": "tsx src/database/migrationRunner.ts rollback",
     "migrate:make": "tsx src/database/migrationRunner.ts make",
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.ts": [
-      "tsc --noEmit"
-    ]
+    "*.ts": "bash -c 'tsc --noEmit'"
   },
   "dependencies": {
     "express": "^5.2.1",
