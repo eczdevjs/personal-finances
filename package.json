@@ -6,6 +6,7 @@
   "author": "ecz",
   "main": "index.js",
   "scripts": {
+    "start": "npx tsx ./src/app.ts",
     "test": "vitest run",
     "migrate:latest": "tsx src/database/migrationRunner.ts latest",
     "migrate:rollback": "tsx src/database/migrationRunner.ts rollback",
