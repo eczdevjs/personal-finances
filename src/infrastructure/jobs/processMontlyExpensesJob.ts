@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import db from '../database/connection';
 import logger from '../config/logger';
-import { ProcessMonthlyRecurringExpensesUseCase } from '../modules/recurring-expenses/use-cases/ProcessMontlyRecurringExpensesUseCase';
+import { ProcessMonthlyRecurringExpensesUseCase } from '../../application/use-cases/process-monthly-recurring-expenses/ProcessMontlyRecurringExpensesUseCase';
 
 const CRON_SCHEDULE_FIRST_DAY_OF_MONTH = '0 0 1 * *';
 

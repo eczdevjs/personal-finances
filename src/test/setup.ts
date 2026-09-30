@@ -4,7 +4,7 @@ import path from 'path';
 // Force .env.test environment
 dotenv.config({ path: path.resolve(process.cwd(), '.env.test'), override: true });
 
-import db from '../database/connection';
+import db from '../infrastructure/database/connection';
 
 export async function setup() {
   // Wipe and rerun all migrations from scratch for clean state

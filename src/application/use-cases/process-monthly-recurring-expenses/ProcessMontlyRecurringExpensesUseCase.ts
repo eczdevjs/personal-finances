@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import logger from "../../../config/logger";
+import logger from "../../../infrastructure/config/logger";
 
 export class ProcessMonthlyRecurringExpensesUseCase {
     constructor(private readonly db: Knex) { }

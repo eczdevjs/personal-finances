@@ -29,7 +29,7 @@ const config: { [key: string]: Knex.Config } = {
       password: process.env.DB_PASSWORD || 'postgres',
     },
     migrations: {
-      directory: './src/database/migrations',
+      directory: './src/infrastructure/database/migrations',
       extension: 'ts',
     },
   },

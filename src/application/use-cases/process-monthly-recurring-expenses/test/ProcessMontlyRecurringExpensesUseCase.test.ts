@@ -1,7 +1,7 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import db from '../../../../database/connection'; // 👈 Importa a conexão que já usa o ambiente de teste (.env.test)
+import db from '../../../../infrastructure/database/connection'; // 👈 Importa a conexão que já usa o ambiente de teste (.env.test)
 import { ProcessMonthlyRecurringExpensesUseCase } from '../ProcessMontlyRecurringExpensesUseCase';
-import logger from '../../../../config/logger';
+import logger from '../../../../infrastructure/config/logger';
 
 
 describe('ProcessMonthlyRecurringExpenseUseCase (Integration Test)', () => {

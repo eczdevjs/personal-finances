@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import db from './database/connection';
+import db from './infrastructure/database/connection';
 
 async function testDatabaseConnection() {
     try {
@@ -11,7 +11,6 @@ async function testDatabaseConnection() {
         console.log('✅ Connection successful!');
         console.log('Database time: ', result.rows[0].current_time);
         console.log('Connected DB: ', result.rows[0].db_name);
-
 
 
     } catch (error) {

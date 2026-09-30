@@ -1,5 +1,5 @@
 import knex from 'knex';
-import config from '../knexfile'; // Verifique o caminho correto do knexfile
+import config from '../../knexfile'; // Verifique o caminho correto do knexfile
 
 const environment = process.env.NODE_ENV || 'development';
 

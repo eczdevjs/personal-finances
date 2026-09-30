@@ -1,7 +1,7 @@
 import {describe, it, expect, vi, beforeEach, afterEach} from 'vitest';
 import cron from 'node-cron';
 import { setupProcessMonthlyExpensesJob } from '../processMontlyExpensesJob';
-import { ProcessMonthlyRecurringExpensesUseCase } from '../../modules/recurring-expenses/use-cases/ProcessMontlyRecurringExpensesUseCase';
+import { ProcessMonthlyRecurringExpensesUseCase } from '../../../application/use-cases/process-monthly-recurring-expenses/ProcessMontlyRecurringExpensesUseCase';
 import logger from '../../config/logger';
 
 

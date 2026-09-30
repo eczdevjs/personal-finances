@@ -1,8 +1,8 @@
 import express from 'express';
-import { initJobs } from './jobs';
-import { httpLogger } from './config/middlewares/httpLogger';
-import { errorHandler } from './config/middlewares/errorHandler';
-import { AppError } from './config/errors/AppError';
+import { initJobs } from './infrastructure/jobs';
+import { httpLogger } from './infrastructure/config/middlewares/httpLogger';
+import { errorHandler } from './infrastructure/config/middlewares/errorHandler';
+import { AppError } from './infrastructure/config/errors/AppError';
 const app = express();
 const port = 3000;
 
